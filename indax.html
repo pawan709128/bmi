@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI</title>
+    <script src="./node_modules/jquery/dist/jquery.js"></script>
+    <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('#amountRange').change(function() {
+                $('#textAmount').val($(this).val());
+            });
+            $('#yearRange').change(function() {
+                $('#textYears').val($(this).val());
+            });
+            $('#rateRange').change(function() {
+                $('#textRate').val($(this).val());
+            });
+            $("#btnCalculate").click(()=>{
+                var P=parseInt($("#textAmount").val());
+                var R=parseFloat($("#textRate").val())/12/100;
+                var N=parseInt($("#textYears").val())*12;
+                var EMI = P * R * (Math.pow(1+R,N)) / Math.pow(1+R,N) - 1;
+                $("#msgEmi").html(`Installment amount is <b class="text-primary">${EMI.toLocaleString('en-in', {style:'currency', currency:'INR'})}</b> for next ${N} months`)
+
+            })
+        });
+    </script>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row text-center mb-3">
+            <div class="col-4"> 
+                Amount you need ₹
+                <input type="number" class="form-control" max="100000" min="100" placeholder="Enter amount" id="textAmount">
+            </div>
+            <div class="col-4">
+                For
+                <input type="number" class="form-control" max="30" min="1" placeholder="Enter years" id="textYears"> years
+            </div>
+            <div class="col-4">
+                Interest rate
+                <input type="number" class="form-control" max="100" min="1" placeholder="Enter rate" id="textRate"> %
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-4">
+                <label for="amount-slider">Select Amount:</label>
+                <input id="amountRange" type="range" class="form-range" max="100000" min="100" step="100">
+                <div class="d-flex justify-content-between">
+                    <span>₹100</span>
+                    <span>₹1,00,000</span>
+                </div>
+            </div>
+            <div class="col-4">
+                <label for="year-slider">Select Years:</label>
+                <input id="yearRange" type="range" class="form-range" min="1" max="30" step="1" >
+                <div class="d-flex justify-content-between">
+                    <span>1 year</span>
+                    <span>30 years</span>
+                </div>
+            </div>
+            <div class="col-4">
+                <label for="rate-slider">Select Interest Rate:</label>
+                <input id="rateRange" type="range" class="form-range" min="1" max="30" step="1">
+                <div class="d-flex justify-content-between">
+                    <span>1%</span>
+                    <span>30%</span>
+                </div>
+            </div>
+            <div>            <button id="btnCalculate" class="btn btn-success">Calculate</button>
+            </div>
+            <div id="msgEmi">
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
